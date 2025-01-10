@@ -23,8 +23,13 @@ fi
 
 if [[ $selectNum -ge 0 && $selectNum -lt ${#array[@]} ]]; then
   echo "${array[$selectNum]}での構築を開始します。"
-  cd ${array[$selectNum]} && docker build -t ${array[$selectNum]} . && docker run -v ./workspace:/opt/workspace --tty --name atcoder_${array[$selectNum]}_container -d ${array[$selectNum]}
-  echo "セットアップ完了"
+  cd ${array[$selectNum]}
+  CONTAINER_NAME="atcoder_${array[$selectNum]}_container"
+  if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
+      docker rm -f $CONTAINER_NAME
+  fi
+  docker build -t ${array[$selectNum]} . && docker run -v ./workspace:/opt/workspace --tty --name $CONTAINER_NAME -d ${array[$selectNum]}
+  echo "セットアップ"
 else
   echo "無効な選択肢です。再度実行してください。"
   exit 1

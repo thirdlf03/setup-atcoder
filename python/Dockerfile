@@ -1,9 +1,15 @@
 FROM ubuntu:latest
 
-# setup C++ (GCC 12.3)
-RUN apt update && apt upgrade -y && apt install -y build-essential gcc-12 g++-12 curl time
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 12 \
-    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-12 12
+# setup pypy 3.10-v7.3.12
+RUN apt update && apt upgrade -y  \
+    && apt install -y wget curl time tar bzip2
+
+WORKDIR /
+
+RUN wget https://downloads.python.org/pypy/pypy3.10-v7.3.12-linux64.tar.bz2 \
+    && tar xf /pypy3.10-v7.3.12-linux64.tar.bz2 \
+    && chmod +x /pypy3.10-v7.3.12-linux64/bin/pypy3 \
+    && ln -s /pypy3.10-v7.3.12-linux64/bin/pypy3 /usr/local/bin/pypy3
 
 # setup atcoder-cli
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
@@ -15,7 +21,6 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | b
 
 ENV PATH="$HOME/.nvm/versions/node/v22/bin:$PATH"
 
-
 RUN python3 -m venv /opt/venv \
     && /opt/venv/bin/pip install --upgrade pip \
     && /opt/venv/bin/pip install online-judge-tools \
@@ -25,12 +30,14 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 RUN mkdir ./opt/workspace
 
-COPY /templates/cpp /root/.config/atcoder-cli-nodejs/cpp/
+COPY /templates/python /root/.config/atcoder-cli-nodejs/python/
 
 RUN /bin/bash -c "source $HOME/.nvm/nvm.sh && acc config default-test-dirname-format test \
     && acc config default-task-choice all \
-    && acc config default-template cpp \
-    && echo \"alias ojt='g++ Main.cpp && oj t -d ./test/'\" >> $HOME/.bashrc \
-    && echo \"alias acs='acc submit Main.cpp -- -l 5001' \" >> $HOME/.bashrc"
+    && acc config default-template python \
+    && echo \"alias ojt='oj t -c \\\"pypy3 Main.py\\\"'\" >> $HOME/.bashrc  \
+    && echo \"alias acs='acc submit Main.py -- -l 5078' \" >> $HOME/.bashrc"
 
 CMD ["/bin/bash"]
+
+
