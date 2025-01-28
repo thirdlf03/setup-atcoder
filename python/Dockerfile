@@ -28,9 +28,11 @@ RUN python3 -m venv /opt/venv \
 
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN mkdir ./opt/workspace
+RUN mkdir -p ./opt/workspace /root/.config/atcoder-cli-nodejs
 
-COPY /templates/python /root/.config/atcoder-cli-nodejs/python/
+COPY /workspace/templates/python /opt/workspace
+
+RUN ln -s /opt/workspace/templates/python /root/.config/atcoder-cli-nodejs/python
 
 RUN /bin/bash -c "source $HOME/.nvm/nvm.sh && acc config default-test-dirname-format test \
     && acc config default-task-choice all \

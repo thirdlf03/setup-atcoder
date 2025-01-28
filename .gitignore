@@ -1,1 +1,6 @@
 .idea
+/*/workspace/*
+!/*/workspace/templates
+
+.DS_Store
+/*/templates/.DS_Store
