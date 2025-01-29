@@ -1,0 +1,8 @@
+{
+    "name": "AtCoder Rust container",
+    "dockerFile": "../Dockerfile",
+    "workspaceFolder": "/opt/workspace",
+    "mounts": [
+    "source=./workspace,target=/opt/workspace,type=bind"
+    ]
+}
