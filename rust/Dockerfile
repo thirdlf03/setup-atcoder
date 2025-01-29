@@ -7,13 +7,14 @@ RUN apt update && apt upgrade -y  \
     && . "$HOME/.cargo/env" \
     && cargo install cargo-compete \
     && mkdir ./opt/workspace \
-    && cd /opt/workspace \
-    && yes 2 | cargo compete init atcoder
+    && rustup toolchain add 1.70.0 \
+    && rustup default 1.70.0-x86_64-unknown-linux-gnu
 
-
-WORKDIR /opt/workspace
-
-COPY compete.toml /opt/workspace/compete.toml
+# alias
+RUN echo "alias ccn='cargo compete new'" >> $HOME/.bashrc \
+    && echo "alias cct='cargo compete test'" >> $HOME/.bashrc \
+    && echo "alias ccs='cargo compete submit'" >> $HOME/.bashrc \
+    && . $HOME/.bashrc
 
 CMD ["/bin/bash"]
 

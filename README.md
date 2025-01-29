@@ -1,6 +1,6 @@
 # AtCoder環境構築
 Dockerを使い簡単に環境構築することができます。  
-もし、エラーや不具合、要望があれば、issueを立てるか
+もし、エラーや不具合があれば、issueを立てるか
 https://x.com/thirdlf1
 に連絡してください。
 
@@ -8,13 +8,14 @@ https://x.com/thirdlf1
 C++  
 Java     
 Python(pypy)
+Rust  (環境作成に時間かかります)
 
 ## 対応予定
-Rust  
 Go
 
 ## 更新履歴
 1/28 テンプレートの編集をより簡単にできるよう変更
+1/30 rustに対応
 
 # 推奨IDE
 VSCode
@@ -79,7 +80,9 @@ git clone https://github.com/thirdlf03/setup-atcoder.git
 
 これで、環境構築が完了です。
 
-# 問題解く時の流れ
+以下、Rustだけは手順が違うので注意してください。
+
+# 問題解く時の流れ (Rust以外)  
 この環境にはatcoder cliとonline-judge-toolsが入っています。  
 まず、ログインしましょう。  
 VSCodeのターミナルを開き
@@ -98,7 +101,7 @@ acc new 解きたい問題
 ```bash
 acc new abc200
 cd abc200
-```
+```  
 と入力してください。
 
 すると、VSCodeの左側にあるフォルダーにabc200というフォルダーが作成され、
@@ -145,11 +148,61 @@ cd b
 ```
 の用意に移動してテストや提出を行なってください。
 
-# テンプレートファイルを変更
+# 問題解く時の流れ (Rust)  
+VSCodeのターミナルを開いた後
+```bash
+yes 2 | cargo compete init atcoder && cp ./templates/compete.toml .
+```
+と入力してください。
+
+その後、atcoderにログインしていきます。
+
+```bash
+cargo compete login atcoder
+```
+
+ログイン後、作成したい問題を指定します
+```bash
+cargo compete new abc~~  or  ccn abc~~
+```
+
+問題のディレクトリが作成されるので、
+```bash
+cd abc ~~
+```
+と移動後、左側のabc~~の中にsrc/binと見ていくとそれぞれ  
+a.rs  
+b.rs  
+とあるので問題に対応するコードを入力していってください。
+
+a問題をテストする場合は
+```bash
+cargo compete test a  or  cct a
+```
+
+提出する場合は
+```bash
+cargo compete submit a  or  ccs a
+```
+
+
+# テンプレートファイルを変更 (Rust以外)
 acc newをした時にできるMain~~ファイルのテンプレートを変更することができます。
 変更する場合は、workspace内のtemplatesフォルダにあるMainファイルを変更することでテンプレートを編集できます。
 
 編集後、acc new ~すると変更が反映されています。
+
+# テンプレートファイルを変更 (Rust)  
+workspace内にある、compete.tomlに
+[template]
+src = '''
+fn main() {
+    todo()
+}
+'''
+
+という欄があるので、ここを変更してください。
+*templates内にあるcompete.tomlじゃないので注意してください。
 
 
 # データ保存場所
@@ -173,6 +226,9 @@ PyPy 3.10-v7.3.12
 atcoder cli  
 online-judge-tools
 
+## Rust
+rustc 1.70.0
+cargo compete
 
 # VSCode以外を使う場合の流れ
 
