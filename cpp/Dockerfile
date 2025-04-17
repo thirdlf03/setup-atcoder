@@ -8,7 +8,6 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12 12 \
 # setup atcoder-cli & aclogin
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash \
     && apt install -y python3-pip python3-venv \
-    && pip install aclogin
     && export NVM_DIR="$HOME/.nvm" \
     && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" \
     && nvm install 22 \
@@ -20,7 +19,9 @@ ENV PATH="$HOME/.nvm/versions/node/v22/bin:$PATH"
 RUN python3 -m venv /opt/venv \
     && /opt/venv/bin/pip install --upgrade pip \
     && /opt/venv/bin/pip install online-judge-tools \
-    && /opt/venv/bin/pip install setuptools
+    && /opt/venv/bin/pip install setuptools \
+    && /opt/venv/bin/pip install -U aclogin
+    
 
 ENV PATH="/opt/venv/bin:$PATH"
 
