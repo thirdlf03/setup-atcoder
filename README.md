@@ -16,7 +16,12 @@ Go
 ## 更新履歴
 1/28 テンプレートの編集をより簡単にできるよう変更  
 1/30 rustに対応  
-4/17 cppにworkspace追加
+4/17 cppにworkspace追加, aclogin対応
+
+> [!WARNING]
+> 今現在、ログインや提出時にCAPTCHA認証が導入されたため、意図しない挙動になっているものがあります。ご了承ください  
+> c++だけ動作確認しています。  
+> https://atcoder.jp/posts/1456  
 
 # 推奨IDE
 VSCode
@@ -87,13 +92,22 @@ git clone https://github.com/thirdlf03/setup-atcoder.git
 
 # 問題解く時の流れ (Rust以外)  
 この環境にはatcoder cliとonline-judge-toolsが入っています。  
-まず、ログインしましょう。  
-VSCodeのターミナルを開き
+~~まず、ログインしましょう。~~  
+~~VSCodeのターミナルを開き~~  
+~~```bash~~  
+~~acc login~~  
+~~oj login [https://atcoder.jp/~~](https://atcoder.jp/~~)  
+~~```~~  
+~~でそれぞれ、名前とパスワードを聞かれるのでログインしましょう。~~  
+↑2025/04/17現在、この方法ではログインできなくなっています。
+代わりにacloginでログインしてください。
+
+https://github.com/key-moon/aclogin/blob/main/README.md
+
 ```bash
-acc login
-oj login https://atcoder.jp/
+aclogin
 ```
-でそれぞれ、名前とパスワードを聞かれるのでログインしましょう。
+
 
 次に、解きたい問題のテストコードを用意していきます。
 ```bash
@@ -125,20 +139,28 @@ ojt
 
 すると、テストができます。
 
-テストが通ったら、提出をしていきましょう。
+~~テストが通ったら、提出をしていきましょう。~~  
+
+~~```bash~~
+~~acs~~
+~~```~~
+~~と入力すると提出が始まります。~~  
+~~ターミナルに~~  
+~~Are you sure? Please type "abca"~~  
+~~と出たら、abcaと入力してください。~~  
+
+~~するとVSCodeがURLを開くか聞いてきます。~~  
+~~もし、提出の結果が見たい場合は、URLを開いてください。~~
+
+~~これで、問題を解く流れが完了です。~~  
+
+↑2025/04/17現在、この方法では提出できなくなっています。
+コンテスト開催中であれば今まで通りacsで提出できますが、おすすめはしていません。
 
 ```bash
 acs
 ```
-と入力すると提出が始まります。  
-ターミナルに  
-Are you sure? Please type "abca"  
-と出たら、abcaと入力してください。  
 
-するとVSCodeがURLを開くか聞いてきます。
-もし、提出の結果が見たい場合は、URLを開いてください。
-
-これで、問題を解く流れが完了です。
 
 次の問題に移る場合は
 ```bash
